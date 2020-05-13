@@ -1,0 +1,2 @@
+rootProject.name='Video RecyclerView'
+include ':app'
