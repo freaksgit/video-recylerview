@@ -7,12 +7,37 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chose Variant"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:text="@string/choose_option"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonScrollViewOption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/option_nested_scroll_view"
+        app:layout_constraintEnd_toStartOf="@id/buttonRecyclerViewOption"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <Button
+        android:id="@+id/buttonRecyclerViewOption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/option_nested_recycler_view"
+        app:layout_constraintBottom_toBottomOf="@id/buttonScrollViewOption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/buttonScrollViewOption"
+        app:layout_constraintTop_toTopOf="@id/buttonScrollViewOption" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
