@@ -3,7 +3,6 @@ package com.vstoliarchuk.videorecyclerview.data
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
 import com.vstoliarchuk.videorecyclerview.R
 import com.vstoliarchuk.videorecyclerview.inflate
 import kotlinx.android.synthetic.main.video_item.view.*
@@ -30,11 +29,7 @@ class VideoItemAdapter : RecyclerView.Adapter<VideoItemAdapter.VideoViewHolder>(
 
     class VideoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(videoItem: VideoItem) {
-            with(itemView) {
-                tvTitle.text = videoItem.title
-                tvSubtitle.text = videoItem.subtitle
-                ivThumbnail.load("file:///android_asset/${videoItem.thumb}")
-            }
+            itemView.videoItemView.bindVideoItem(videoItem)
         }
     }
 }

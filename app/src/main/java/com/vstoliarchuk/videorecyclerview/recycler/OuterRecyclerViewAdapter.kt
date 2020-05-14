@@ -2,7 +2,6 @@ package com.vstoliarchuk.videorecyclerview.recycler
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.vstoliarchuk.videorecyclerview.R
 import com.vstoliarchuk.videorecyclerview.data.VideoItem
@@ -28,9 +27,9 @@ class OuterRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         with(holder.itemView.nestedRecyclerView) {
-            if (tag == null) {
-                tag = PagerSnapHelper().apply { attachToRecyclerView(this@with) }
-            }
+//            if (tag == null) {
+//                tag = PagerSnapHelper().apply { attachToRecyclerView(this@with) }
+//            }
             setRecycledViewPool(commonRecycledViewPool)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             if (adapter == null) {

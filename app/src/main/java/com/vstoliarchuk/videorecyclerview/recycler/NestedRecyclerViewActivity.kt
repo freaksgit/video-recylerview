@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnNextLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vstoliarchuk.videorecyclerview.R
 import com.vstoliarchuk.videorecyclerview.data.VideoDataRepository
@@ -24,7 +25,9 @@ class NestedRecyclerViewActivity : AppCompatActivity() {
         rootRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = OuterRecyclerViewAdapter().apply { swapData(repository.getVideoCategories()) }
+            doOnNextLayout {
+                onVisibilityChanged(true)
+            }
         }
     }
-
 }
