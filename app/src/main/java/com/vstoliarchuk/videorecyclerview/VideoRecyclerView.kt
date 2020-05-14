@@ -3,6 +3,7 @@ package com.vstoliarchuk.videorecyclerview
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -11,11 +12,19 @@ class VideoRecyclerView : RecyclerView, VisibilityObserver {
         private val TAG = VideoRecyclerView::class.java.simpleName
     }
 
-    private var currentVisibleView: VisibilityObserver? = null
-
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+
+    private var currentVisibleView: VisibilityObserver? = null
+    var visibilityPercentageThreshold = 65
+        set(value) {
+            field = when {
+                value > 100 -> 100
+                value < 0 -> 0
+                else -> 0
+            }
+        }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -39,17 +48,23 @@ class VideoRecyclerView : RecyclerView, VisibilityObserver {
     private fun handleVisibility(): Boolean {
         val layoutManager = layoutManager
         var handled = false
+
+        currentVisibleView?.let {
+            val percentage = Utils.calculateVisibilityPercentage(this, it as View)
+            if (percentage < visibilityPercentageThreshold) {
+                disposeCurrentVisibleView()
+            }
+        }
+
         if (layoutManager is LinearLayoutManager) {
             val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
             val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
             Log.w(TAG, "firstVisiblePosition = $firstVisiblePosition")
-
-
             for (i in firstVisiblePosition..lastVisiblePosition) {
-                val viewByPosition = layoutManager.findViewByPosition(i)
-                val visibilityPercentage = Utils.calculateFirstVisibleItemPercentage(i, this)
+                val viewByPosition = layoutManager.findViewByPosition(i) ?: continue
+                val visibilityPercentage = Utils.calculateVisibilityPercentage(this, viewByPosition)
 
-                if (visibilityPercentage < 50) {
+                if (visibilityPercentage < visibilityPercentageThreshold) {
                     continue
                 }
 
@@ -66,8 +81,7 @@ class VideoRecyclerView : RecyclerView, VisibilityObserver {
             }
 
             if (!handled && currentVisibleView != null) {
-                currentVisibleView?.onVisibilityChanged(false)
-                currentVisibleView = null
+                disposeCurrentVisibleView()
             }
         }
         return handled
@@ -77,9 +91,13 @@ class VideoRecyclerView : RecyclerView, VisibilityObserver {
         return if (visible) {
             handleVisibility()
         } else {
-            currentVisibleView?.onVisibilityChanged(false)
-            currentVisibleView = null
+            disposeCurrentVisibleView()
             true
         }
+    }
+
+    private fun disposeCurrentVisibleView() {
+        currentVisibleView?.onVisibilityChanged(false)
+        currentVisibleView = null
     }
 }

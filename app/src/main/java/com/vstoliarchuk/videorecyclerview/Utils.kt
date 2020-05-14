@@ -6,12 +6,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 object Utils {
-    fun calculateFirstVisibleItemPercentage(firstVisiblePosition: Int, recyclerView: RecyclerView): Int {
+    fun calculateVisibilityPercentage(recyclerView: RecyclerView, view: View): Int {
         val layoutManager = recyclerView.layoutManager ?: return 0
         val rvRect = Rect()
         recyclerView.getGlobalVisibleRect(rvRect)
         val rowRect = Rect()
-        val view = layoutManager.findViewByPosition(firstVisiblePosition) ?: return 0
         view.getGlobalVisibleRect(rowRect)
         var percentFirst: Int
 
