@@ -12,6 +12,8 @@ class VideoRecyclerView : RecyclerView, VisibilityObserver {
         private val TAG = VideoRecyclerView::class.java.simpleName
     }
 
+    private var visible = false
+
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
@@ -40,7 +42,9 @@ class VideoRecyclerView : RecyclerView, VisibilityObserver {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             Log.d(TAG, "newState = $newState")
             if (newState == SCROLL_STATE_IDLE) {
-                handleVisibility()
+                if (visible) {
+                    handleVisibility()
+                }
             }
         }
     }
@@ -60,7 +64,16 @@ class VideoRecyclerView : RecyclerView, VisibilityObserver {
             val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
             val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
             Log.w(TAG, "firstVisiblePosition = $firstVisiblePosition")
-            for (i in firstVisiblePosition..lastVisiblePosition) {
+
+            val isEndOfList = !canScrollVertically(1)
+
+            var visiblePositions = (firstVisiblePosition..lastVisiblePosition).toList()
+
+            if (isEndOfList) {
+                visiblePositions = visiblePositions.toList().reversed()
+            }
+
+            for (i in visiblePositions) {
                 val viewByPosition = layoutManager.findViewByPosition(i) ?: continue
                 val visibilityPercentage = Utils.calculateVisibilityPercentage(this, viewByPosition)
 
@@ -88,6 +101,7 @@ class VideoRecyclerView : RecyclerView, VisibilityObserver {
     }
 
     override fun onVisibilityChanged(visible: Boolean): Boolean {
+        this.visible = visible
         return if (visible) {
             handleVisibility()
         } else {

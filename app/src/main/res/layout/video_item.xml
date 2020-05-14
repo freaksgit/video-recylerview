@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/videoItemView"
-    android:layout_width="match_parent"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:padding="16dp">
 
@@ -19,6 +19,16 @@
         tools:ignore="ContentDescription"
         tools:src="@tools:sample/backgrounds/scenic" />
 
+    <View
+        android:id="@+id/playerViewPlaceholder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/tvTitle"
+        app:layout_constraintDimensionRatio="1.33"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/tvTitle"
@@ -26,6 +36,8 @@
         android:layout_height="wrap_content"
         android:background="#BEDEFF"
         android:padding="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -44,6 +56,7 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingBottom="16dp"
+        android:visibility="gone"
         android:textColor="#404040"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"

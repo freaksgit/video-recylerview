@@ -30,7 +30,7 @@ class OuterRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 //            if (tag == null) {
 //                tag = PagerSnapHelper().apply { attachToRecyclerView(this@with) }
 //            }
-            setRecycledViewPool(commonRecycledViewPool)
+//            setRecycledViewPool(commonRecycledViewPool)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             if (adapter == null) {
                 adapter = VideoItemAdapter()
