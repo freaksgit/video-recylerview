@@ -39,6 +39,13 @@ class PlaybackManager(context: Context) {
         exoPlayer?.playWhenReady = true
     }
 
+    fun stop(source: Uri?) {
+        source ?: return
+        if (currentSource == source) {
+            stop()
+        }
+    }
+
     fun stop() {
         currentSource = null
         exoPlayer?.release()

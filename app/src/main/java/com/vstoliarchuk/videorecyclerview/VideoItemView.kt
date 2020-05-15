@@ -70,7 +70,7 @@ class VideoItemView : ConstraintLayout, VisibilityObserver {
     private fun removePlayerViewAndStopPlayback() {
         ivThumbnail.visibility = View.VISIBLE
         if (playerView?.parent != null) {
-            App.getPlaybackManager().stop()
+            App.getPlaybackManager().stop(videoItem?.source)
             this.removeView(playerView)
         }
     }
